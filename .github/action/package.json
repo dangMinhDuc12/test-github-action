@@ -1,0 +1,9 @@
+{
+  "name": "greet-user-action",
+  "version": "1.0.0",
+  "description": "An action that greets the user",
+  "main": "index.js",
+  "dependencies": {
+    "@actions/core": "^1.2.6"
+  }
+}

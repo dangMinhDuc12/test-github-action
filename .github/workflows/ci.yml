@@ -1,0 +1,25 @@
+name: "Greet User Workflow"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  greet_user_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Repo B code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Use the custom action from Repo A
+      - name: Greet the user
+        uses: ../action  # Replace with actual username and repo
+        with:
+          username: "ChatGPT"  # Pass the input for the action
+
+      # Step 3: Print the output from the action
+      - name: Print the greeting
+        run: echo "Greeting: ${{ steps.greet.outputs.greeting }}"

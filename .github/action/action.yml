@@ -1,0 +1,17 @@
+name: "Greet User Action"
+description: "An action that greets the user"
+author: "Your Name"
+
+inputs:
+  username:
+    description: "The GitHub username to greet"
+    required: true
+    default: "World"
+
+outputs:
+  greeting:
+    description: "The greeting message"
+
+runs:
+  using: "node12"
+  main: "index.js"
