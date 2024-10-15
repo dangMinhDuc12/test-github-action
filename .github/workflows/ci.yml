@@ -13,7 +13,10 @@ jobs:
       # Step 1: Checkout Repo B code
       - name: Checkout code
         uses: actions/checkout@v2
-
+      - name: Install npm dependencies
+        run: |
+          cd .github/action
+          npm install
       # Step 2: Use the custom action from Repo A
       - name: Greet the user
         id: greet_step
