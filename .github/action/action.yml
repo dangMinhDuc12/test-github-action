@@ -14,8 +14,4 @@ outputs:
 
 runs:
   using: "node12"
-  steps:
-    - run: npm install
-      shell: bash  # Specify the shell to run the command
-    - run: node index.js
-      shell: bash  # Specify the shell to run the command
+  main: "index.js" 
