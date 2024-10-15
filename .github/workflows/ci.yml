@@ -16,10 +16,11 @@ jobs:
 
       # Step 2: Use the custom action from Repo A
       - name: Greet the user
+        id: greet_step
         uses: ../action  # Replace with actual username and repo
         with:
           username: "ChatGPT"  # Pass the input for the action
 
       # Step 3: Print the output from the action
       - name: Print the greeting
-        run: echo "Greeting: ${{ steps.greet.outputs.greeting }}"
+        run: echo "Greeting: ${{ steps.greet_step.outputs.greeting }}"
