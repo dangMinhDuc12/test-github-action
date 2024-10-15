@@ -23,4 +23,4 @@ jobs:
 
       # Step 3: Print the output from the action
       - name: Print the greeting
-        run: echo "Greeting: ${{ steps.greet_step.outputs.greeting }}"
+        run: "echo Greeting: ${{ steps.greet_step.outputs.greeting }}"
