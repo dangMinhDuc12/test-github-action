@@ -17,7 +17,7 @@ jobs:
       # Step 2: Use the custom action from Repo A
       - name: Greet the user
         id: greet_step
-        uses: ./github/action  # Replace with actual username and repo
+        uses: dangMinhDuc12/test-github-action/.github/action@main  # Replace with actual username and repo
         with:
           username: "ChatGPT"  # Pass the input for the action
 
