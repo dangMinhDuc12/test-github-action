@@ -1,29 +1,45 @@
-name: "Greet User Workflow"
+# 
+name: EKS Deployment
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  greet_user_job:
+  deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-      # Step 1: Checkout Repo B code
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Install npm dependencies
-        run: |
-          cd .github/action
-          npm install
-      # Step 2: Use the custom action from Repo A
-      - name: Greet the user
-        id: greet_step
-        uses: ./.github/action  # Replace with actual username and repo
-        with:
-          username: "ChatGPT"  # Pass the input for the action
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      # Step 3: Print the output from the action
-      - name: Print the greeting
-        run: 'echo "Greeting: ${{ steps.greet_step.outputs.greeting }}"'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Test kubectl install
+      run: |
+        kubectl version
+
+    # - name: Update kubeconfig
+    #   run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+
+    # - name: Test cluster access
+    #   run: |
+    #     kubectl get nodes
+        
+    # # Example of applying Kubernetes manifests
+    # - name: Apply Kubernetes manifests
+    #   run: |
+    #     kubectl apply -f k8s/  # Replace with your manifest directory
