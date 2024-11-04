@@ -28,18 +28,9 @@ jobs:
       with:
         version: 'latest'
 
-    - name: Test kubectl install
+    - name: Update kubeconfig
+      run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+
+    - name: Test cluster access
       run: |
-        kubectl version
-
-    # - name: Update kubeconfig
-    #   run: aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
-
-    # - name: Test cluster access
-    #   run: |
-    #     kubectl get nodes
-        
-    # # Example of applying Kubernetes manifests
-    # - name: Apply Kubernetes manifests
-    #   run: |
-    #     kubectl apply -f k8s/  # Replace with your manifest directory
+        kubectl get nodes
