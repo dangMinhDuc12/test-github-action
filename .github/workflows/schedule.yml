@@ -1,0 +1,21 @@
+name: Weekly Scheduled Action
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every Saturday
+    - cron: '* * * * *'
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test1:
+    if: github.ref == 'refs/heads/test1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: test1
+      - name: Run test1 branch job
+        run: echo "Running on test1 branch"
+  
