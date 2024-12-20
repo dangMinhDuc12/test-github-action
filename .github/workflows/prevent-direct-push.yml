@@ -7,8 +7,25 @@ jobs:
   prevent_push:
     runs-on: ubuntu-latest
     steps:
+      - name: Debug Info
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+          echo "Ref: ${{ github.ref }}"
+          
       - name: Check branch name
         run: |
+          # Debug the commit message
+          echo "Full commit message:"
+          echo "${{ github.event.head_commit.message }}"
+          
+          # Debug the merge check
+          if [[ "${{ github.event.head_commit.message }}" == *"Merge pull request"* ]]; then
+            echo "Found 'Merge pull request' in message"
+          else
+            echo "Did NOT find 'Merge pull request' in message"
+          fi
+          
           # Skip check if push is from a PR merge
           if [[ "${{ github.event.head_commit.message }}" == *"Merge pull request"* ]]; then
             echo "Push is from PR merge, allowing..."
