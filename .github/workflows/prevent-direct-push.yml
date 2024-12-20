@@ -1,0 +1,21 @@
+name: Prevent Direct Push
+on:
+  push:
+    branches:
+      - '*'
+jobs:
+  prevent_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch name
+        run: |
+          # Skip check if push is from a PR merge
+          if [[ "${{ github.event.head_commit.message }}" == *"Merge pull request"* ]]; then
+            echo "Push is from PR merge, allowing..."
+            exit 0
+          fi
+          
+          if [[ ${{ github.ref }} == "refs/heads/main" || ${{ github.ref }} == "refs/heads/staging" || ${{ github.ref }} == "refs/heads/dev" ]]; then
+            echo "Direct pushes to main, staging and dev branches are not allowed. Please create a pull request instead."
+            exit 1
+          fi
