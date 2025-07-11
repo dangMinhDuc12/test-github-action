@@ -1,0 +1,42 @@
+name: Stage Deployment
+
+on:
+  push:
+    tags:
+      - 'stage/**'  # Triggers on tags like stage/v1.0.0, stage/feature-x, etc.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      
+      - name: Get tag and commit info
+        run: |
+          echo "Tag name: ${{ github.ref_name }}"
+          echo "Full ref: ${{ github.ref }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Repository: ${{ github.repository }}"
+          
+      - name: Get commit details
+        run: |
+          git log -1 --format="%H %s %an %ad" --date=short
+          echo "Commit message: $(git log -1 --format='%s')"
+          echo "Author: $(git log -1 --format='%an')"
+          echo "Date: $(git log -1 --format='%ad' --date=short)"
+          
+      - name: Use commit info in environment variables
+        run: |
+          echo "COMMIT_SHA=${{ github.sha }}" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "COMMIT_MESSAGE=$(git log -1 --format='%s')" >> $GITHUB_ENV
+          
+      - name: Deploy to staging
+        run: |
+          echo "Deploying commit $COMMIT_SHA with tag $TAG_NAME"
+          echo "Commit message: $COMMIT_MESSAGE"
+          # Your deployment commands here
